@@ -1,2 +1,3 @@
 # vdo-plyr
-An HTML5 video player.
+An HTML5 video player for the Cozy PaaS software.
+This is still work in progress.
