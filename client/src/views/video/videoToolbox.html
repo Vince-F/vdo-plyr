@@ -1,0 +1,63 @@
+<div>
+	<div class="">
+		<div class="col-md-1">
+			{{videoToolboxCtrl.videoService.getCurrentTimeString()}} / {{videoToolboxCtrl.videoService.getDurationTimeString()}}
+		</div>
+		<div class="col-md-11">
+			<!-- video cursor -->
+			<md-slider flex ng-model="videoToolboxCtrl.videoService.currentTime" min="0" max="{{videoToolboxCtrl.videoService.duration}}" class="md-primary">
+		</div>
+	</div>
+	
+	<div class="">
+		<div class="col-md-1">
+			<button ng-click="videoToolboxCtrl.videoService.pause()">
+				<i ng-if="videoToolboxCtrl.videoService.isPaused()" class="material-icons">play_arrow</i>
+				<i ng-if="!videoToolboxCtrl.videoService.isPaused()" class="material-icons">pause</i>
+			</button>
+		</div>
+		<div class="col-md-1">
+			<button ng-click="videoToolboxCtrl.videoService.stop()">
+				<i class="material-icons">stop</i>
+			</button>
+		</div>
+		<div class="col-md-2">
+			<button ng-click="">
+				<i class="material-icons">subtitles</i>
+			</button>
+		</div>
+		<div class="col-md-3">
+			
+		</div>
+		<div class="col-md-1">
+			<button ng-click="videoToolboxCtrl.videoService.setFullScreen()">
+				<i class="material-icons">fullscreen</i>
+			</button>
+		</div>
+		<div class="col-md-2">
+			<button ng-click="videoToolboxCtrl.videoService.mute()">
+				<i ng-if="!videoToolboxCtrl.videoService.isMuted()" class="material-icons">volume_mute</i>
+				<i ng-if="videoToolboxCtrl.videoService.isMuted()" class="material-icons">volume_off</i>
+			</button>
+			<button ng-click="videoToolboxCtrl.videoService.volumeDown()">
+				<i class="material-icons">volume_down</i>
+			</button>
+			<button ng-click="videoToolboxCtrl.videoService.volumeUp()">
+				<i class="material-icons">volume_up</i>
+			</button>
+		</div>
+		<div class="col-md-2">
+			<div class="row">
+				<div class="col-md-1">
+					<i class="material-icons">volume_mute</i>
+				</div>
+				<div class="col-md-8">
+					<md-slider flex ng-model="videoToolboxCtrl.videoService.volume" min="0" max="100" class="md-default">
+				</div>
+				<div class="col-md-1">
+					<i class="material-icons">volume_up</i>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>

@@ -1,0 +1,76 @@
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url(/font/material-icons/MaterialIcons-Regular.eot); /* For IE6-8 */
+	src: local('Material Icons'),
+	local('MaterialIcons-Regular'),
+		url(/font/material-icons/MaterialIcons-Regular.woff2) format('woff2'),
+		url(/font/material-icons/MaterialIcons-Regular.woff) format('woff'),
+		url(/font/material-icons/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+	font-family: 'Material Icons';
+	position: relative;
+    top: 4px; /* to align with text */
+	font-weight: normal;
+	font-style: normal;
+	font-size: 18px;  /* Preferred icon size */
+	display: inline-block;
+	width: 1em;
+	height: calc(1em - 4px); /* because font has been offset by 4px  */
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+
+	/* Support for all WebKit browsers. */
+	-webkit-font-smoothing: antialiased;
+	/* Support for Safari and Chrome. */
+	text-rendering: optimizeLegibility;
+	
+	/* Support for Firefox. */
+	-moz-osx-font-smoothing: grayscale;
+	
+	/* Support for IE. */
+	font-feature-settings: 'liga';
+}
+
+.material-icons.icon-md-24 {
+	font-size: 24px;
+}
+.video-area{
+	position: absolute;
+	top: 0;
+	bottom: 125px;
+	left: 0;
+	background: black;
+	width: 100%;
+	text-align: center;
+}
+
+video {
+	max-height: 100%;
+	max-width: 100%;
+}
+
+.fullscreen.video-area{
+	bottom: 0;
+}
+
+.fullscreen video {
+	width: 100%;
+	height: 100%;
+}
+
+.toolbox-area {
+	height: 125px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: lightgrey; 
+	width: 100%;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "vdo-plyr",
+  "version": "1.0.0",
+  "description": "A web application to play in your Cozy PaaS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincent Francolin",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
