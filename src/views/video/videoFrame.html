@@ -1,6 +1,12 @@
-<div class="video-area" ng-class="{'fullscreen':videoFrameCtrl.videoService.isFullScreen}">
-	<video></video>
-</div>
-<div class="toolbox-area">
-	<video-toolbox></video-toolbox>
+<div class="video-container" ng-mousemove="videoFrameCtrl.displayToolbox()" 
+	ng-class="{'fullscreen':videoFrameCtrl.videoService.isFullScreen,'displayed':videoFrameCtrl.toolboxDisplayed}"
+	ng-click="videoFrameCtrl.hideContextMenu()"
+	angu-contextmenu="videoFrameCtrl.displayContextMenu($event)">
+	<div class="video-area" ng-class="{'fullscreen':videoFrameCtrl.videoService.isFullScreen}">
+		<video></video>
+	</div>
+	<div class="toolbox-area" ng-class="{'fullscreen':videoFrameCtrl.videoService.isFullScreen,'displayed':videoFrameCtrl.toolboxDisplayed}">
+		<video-toolbox></video-toolbox>
+	</div>
+	<video-context-menu ng-if="videoFrameCtrl.menu" data-x-position="videoFrameCtrl.menu.x" y-position="videoFrameCtrl.menu.y"></video-context-menu>
 </div>

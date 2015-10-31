@@ -1,0 +1,7 @@
+<div class="context-menu" 
+	ng-style="{top:videoContextMenuCtrl.yPosition()+'px',left:videoContextMenuCtrl.xPosition()+'px'}">
+	<div ng-repeat="item in videoContextMenuCtrl.menuContent">
+		<a ng-if="!item.divider" href="" ng-click="item.action()" ng-disabled="item.disabled">{{item.name}}</a>
+		<legend ng-if="item.divider"></legend>
+	</div>
+</div>
