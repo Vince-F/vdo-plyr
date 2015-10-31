@@ -5,7 +5,8 @@
 		</div>
 		<div class="col-md-11">
 			<!-- video cursor -->
-			<md-slider flex ng-model="videoToolboxCtrl.videoService.currentTime" min="0" max="{{videoToolboxCtrl.videoService.duration}}" class="md-primary">
+			<md-slider flex ng-model="videoToolboxCtrl.videoService.currentTime" min="0" max="{{videoToolboxCtrl.videoService.duration}}"
+				ng-change="videoToolboxCtrl.videoService.updateCurrentTime()" class="md-primary">
 		</div>
 	</div>
 	

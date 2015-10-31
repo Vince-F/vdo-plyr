@@ -2,7 +2,10 @@
 	angular.module("api",[]);
 })();;
 (function(){
-	angular.module("video",['ngMaterial']);
+	angular.module("fileExplorer",[]);
+})();;
+(function(){
+	angular.module("video",['ngMaterial',"angu.events"]);
 })();;
 (function(){
 	angular.module("api")
@@ -18,14 +21,35 @@
 		};
 	};
 })();;
+(function(){
+	angular.module("fileExplorer")
+		.service("fileExplorerService",fileExplorerService);
+		
+	function fileExplorerService(){
+		
+		this.requestForFileSelection = function(){
+			//return promise or something like that
+		};
+		
+		this.requestForFolderSelection = function(){
+			
+		};
+		
+		this.selectEntity = function(){
+			
+		};
+		
+		this.cancelSelection = function(){
+			
+		};
+	};
+})();;
 (function () {
 	angular.module("video")
 		.service("videoService", videoService);
 
 	videoService.$inject = ["$rootScope"]
-	function videoService($rootScope) {
-		window.dbg = this;
-		
+	function videoService($rootScope) {		
 		var myself = this;
 		this.htmlElement;
 		this.videoContainer;
@@ -44,7 +68,7 @@
 			this.videoContainer = div;
 		};
 		
-		function updatCursor(){
+		function updateCursor(){
 			$rootScope.$apply( function(){
 				myself.currentTime = Math.floor(myself.htmlElement.currentTime);
 			});
@@ -59,12 +83,10 @@
 		this.setElementSource = function (newSrc) {
 			if (this.htmlElement) {
 				this.htmlElement.src = newSrc;
-				this.htmlElement.ondurationchange = function(){ updateDuration(); }
-				this.htmlElement.ontimeupdate = function(){ updatCursor(); }; //set the updated cursor function
+				this.htmlElement.ondurationchange = function(){ updateDuration(); };
+				this.htmlElement.ontimeupdate = function(){ updateCursor(); }; 
 			}
 		};
-		
-		
 		
 		this.setFrameDimension = function(width,height){
 			this.maxWidth = width;
@@ -73,7 +95,7 @@
 		
 		this.getIdealRatio = function (width,height) {
 			if (this.htmlElement) {
-				var verticalRatio = this.htmlElement.videoWidth / width; //check if good property
+				var verticalRatio = this.htmlElement.videoWidth / width;
 				var horizontalRation = this.htmlElement.videoHeight / height;
 				return (verticalRatio < horizontalRation) ? verticalRatio : horizontalRation;
 			}
@@ -101,7 +123,6 @@
 		this.getDurationTimeString = function () {
 			if (this.htmlElement) {
 				var duration = Math.floor(this.htmlElement.duration);
-				console.log("duration ",duration);
 				var sec = duration % 60;
 				var min = Math.floor(duration / 60);
 				if (min > 59) {
@@ -140,6 +161,12 @@
 				return res;
 			}
 			return "--:--";
+		};
+		
+		this.updateCurrentTime = function(){
+			if(this.htmlElement){
+				this.htmlElement.currentTime = this.currentTime;
+			}
 		};
 
 		this.getVolume = function () {
@@ -229,15 +256,26 @@
 		this.exitFullScreen = function () {
 			this.isFullScreen = false;
 			if (this.videoContainer.cancelFullscreen) {
-					this.videoContainer.cancelFullscreen();
-				} else if (this.videoContainer.mozcancelFullScreen) {
-					this.videoContainer.mozcancelFullScreen();
-				} else if (this.videoContainer.webkitcancelFullscreen) {
-					this.videoContainer.webkitcancelFullscreen();
-				}
+				this.videoContainer.cancelFullscreen();
+			} else if (this.videoContainer.mozcancelFullScreen) {
+				this.videoContainer.mozcancelFullScreen();
+			} else if (this.videoContainer.webkitcancelFullscreen) {
+				this.videoContainer.webkitcancelFullscreen();
+			}
 		};
-
 		
+		document.addEventListener("fullscreenchange", function( event ) {
+			myself.isFullScreen = document.fullscreenEnabled;
+			$rootScope.$digest();
+		});
+		document.addEventListener("mozfullscreenchange", function( event ) {
+			myself.isFullScreen = document.mozFullScreen;
+			$rootScope.$digest();
+		});
+		document.addEventListener("webkitfullscreenchange", function( event ) {
+			myself.isFullScreen = document.webkitIsFullScreen;
+			$rootScope.$digest();
+		});
 
 		$rootScope.$watch(function () { return myself.volume },
 			function () {
@@ -249,23 +287,63 @@
 	};
 })();;
 (function(){
+	angular.module("fileExplorer")
+		.controller("FileExplorerController",FileExplorerController);
+		
+	function FileExplorerController(){
+		
+	};
+})();;
+(function(){
 	angular.module("video")
 		.controller("VideoContextMenuController",VideoContextMenuController);
 		
 	VideoContextMenuController.$inject = ["videoService"];
 		
 	function VideoContextMenuController(videoService){
-		
+		this.menuContent = [
+			{name:"Play",action:function(){videoService.pause()},disabled:!videoService.isPaused()},
+			{name:"Pause",action:function(){videoService.pause()},disabled:videoService.isPaused()},
+			{name:"Stop",action:function(){videoService.stop()},disabled:false},
+			{divider:true},
+			
+		];
 	}
 })();;
 (function(){
 	angular.module("video")
 		.controller("VideoFrameController",VideoFrameController);
 		
-	VideoFrameController.$inject = ["videoService"];
+	VideoFrameController.$inject = ["videoService","$timeout"];
 		
-	function VideoFrameController(videoService){
+	function VideoFrameController(videoService,$timeout){
+		var myself = this;
 		this.videoService = videoService;
+		this.toolboxDisplayed = false;
+		this.timeoutInst;
+		
+		this.displayToolbox = function(){
+			this.toolboxDisplayed = true;
+			if(this.timeoutInst){
+				$timeout.cancel(this.timeoutInst);
+			}
+			this.timeoutInst = $timeout(function(){
+				myself.toolboxDisplayed = false;
+			},5000);
+		};
+		
+		this.displayContextMenu = function(evt){
+			console.log("context menu has been trigerred ",evt);
+			this.menu = {};
+			this.menu.x = evt.x;
+			this.menu.y = evt.y;
+			console.log(this.menu);
+			evt.preventDefault();
+		};
+		
+		this.hideContextMenu = function(){
+			this.menu = undefined;
+		};
 	};
 })();;
 (function(){
@@ -279,6 +357,19 @@
 	};
 })();;
 (function(){
+	angular.module("fileExplorer")
+		.directive("fileExplorerView",fileExplorerView);
+		
+	function fileExplorerView(){
+		return {
+			restrict: 'E',
+			templateUrl: 'src/views/fileExplorer/fileExplorerView.html',
+			controller: 'FileExplorerViewController',
+			controllerAs: 'fileExplorerCtrl'
+		}
+	}
+})();;
+(function(){
 	angular.module("video")
 		.directive("videoContextMenu",videoContextMenu);
 		
@@ -286,11 +377,16 @@
 		return {
 			restrict: 'E',
 			templateUrl: 'src/views/video/videoContextMenu.html',
+			scope:{
+				xPosition:"&",
+				yPosition:"&"
+			},
+			bindToController:true,
 			controller: 'VideoContextMenuController',
 			controllerAs: 'videoContextMenuCtrl'
 		}
 	};
-});
+})();;
 (function(){
 	angular.module("video")
 		.directive("videoFrame",videoFrame);

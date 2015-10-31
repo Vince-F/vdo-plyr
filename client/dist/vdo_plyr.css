@@ -74,3 +74,42 @@ video {
 	background-color: lightgrey; 
 	width: 100%;
 }
+
+.fullscreen.toolbox-area {
+	height: 125px;
+	position: absolute;
+	bottom: 50px;
+	left: 7%;
+	right:7%;
+	color: white;
+	background-color: #333; 
+	width: 80%;
+	visibility: hidden;
+	
+}
+
+.fullscreen.toolbox-area button{
+	color: black;
+}
+
+.fullscreen.toolbox-area.displayed {
+	visibility: visible;
+	
+}
+
+.video-container.fullscreen {
+	cursor: none;
+}
+
+.video-container.fullscreen.displayed {
+	cursor: default;
+}
+
+.context-menu {
+	min-width: 100px;
+	padding: 10px;
+	border-radius: 3px;
+	border: 1px solid rgba(60,60,60,0.5);
+	position: fixed;
+	background-color: white;
+}

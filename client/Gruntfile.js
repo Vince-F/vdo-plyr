@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-ngdoc');
 	
 	grunt.initConfig({
 		concat: {
@@ -59,15 +60,19 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		ngdoc: {
+			all: ['src/**/*.js']
+		},
 		watch: {
-			files: ['src/**/*.js'],
+			files: ['src/**/*.js','src/**/*.css'],
 			tasks: ['concat:js_debug',"concat:css"]
 		}
 	});
 	
-	grunt.registerTask('code-quality', ['jshint','plato','jsinspect','ng-doc']);
+	grunt.registerTask('code-quality', ['jshint','plato','jsinspect','ngdoc']);
 	grunt.registerTask('compile-debug', ['concat:js_debug','concat:css']);
 	grunt.registerTask('compile-release', ["jshint",'concat:js_release','uglify',"concat:css","cssmin"]);
-	grunt.registerTask('default', ["jshint",'plato','jsinspect','ng-doc','concat:js_release','uglify',"concat:css","cssmin"]);
+	grunt.registerTask('default', ["jshint",'plato','jsinspect','ngdoc','concat:js_release','uglify',"concat:css","cssmin"]);
 	grunt.registerTask('code-duplication', ["jsinspect"]);
+	grunt.registerTask('doc', ["ngdoc"]);
 };

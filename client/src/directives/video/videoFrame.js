@@ -4,6 +4,14 @@
 		
 	videoFrame.$inject = ["videoService"];
 		
+	/**
+	 * @ngdoc directive
+	 * @name video.videoFrame
+	 * @description
+	 * directive containing the video element
+	 * 
+	 * @requires videoService service to control the video element
+	 */
 	function videoFrame(videoService){
 		return {
 			restrict: 'E',

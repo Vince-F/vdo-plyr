@@ -1,0 +1,29 @@
+<div class="file-explorer">
+	<div class="path">
+		
+	</div>
+	<div class="toolbox">
+		<button ng-click="fileExplorerCtrl.setTableView()">
+			Tab view
+		</button>
+		<button ng-click="fileExplorerCtrl.setListView()">
+			List view
+		</button>
+	</div>
+	<div class="content">
+		<div ng-repeat="entity" 
+			ng-click="fileExplorerCtrl.setSelectectedEntity(entity)"
+			ng-class="{'file-thumbnail':!fileExplorerCtrl.isListView(),'file-list':fileExplorerCtrl.isListView()}">
+			<img ng-src="{{entity.img}}" /> <!-- inline -->
+			{{entity.name}}
+		</div>
+	</div>
+	<div class="buttons">
+		<button ng-click="fileExplorerCtrl.fileExplorerService.selectEntity()">
+			Select
+		</button>
+		<button ng-click="fileExplorerCtrl.fileExplorerService.cancelSelection()">
+			Cancel
+		</button>
+	</div>
+</div>
